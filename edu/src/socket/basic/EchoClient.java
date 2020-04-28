@@ -7,9 +7,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-
 public class EchoClient {
-	public static final String IP = "127.0.1.1";
+	public static final String IP = "127.0.0.1";
 	
 	public static void send() throws UnknownHostException, IOException, ClassNotFoundException{
 		Socket clientSocket = new Socket(IP, EchoServer.MYECHOPORT);

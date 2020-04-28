@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.*;
 
 public class EchoServer {
-
+	
 	public static int MYECHOPORT = 8189;
 	public static int backlog_queue = 5; //maximum queue length for incoming connections
 
@@ -12,11 +12,19 @@ public class EchoServer {
 		ServerSocket s = null;
 		try {
 			System.out.println("[" + EchoServer.class.getName() + "]");
-			InetAddress bindAddr = InetAddress.getLocalHost();
+			InetAddress bindAddr = InetAddress.getLocalHost(); // IP reale della macchina
+			
+			try {
+				s = new ServerSocket(MYECHOPORT, backlog_queue, bindAddr);
+			}
+			catch (Exception e) {
+				bindAddr = InetAddress.getLoopbackAddress(); //127.0.0.1
+				s = new ServerSocket(MYECHOPORT, backlog_queue, bindAddr);
+			}
+			
 			System.out.println("Listening for incoming connections on " + 
 					bindAddr.getHostAddress() + ':' + MYECHOPORT);
 
-			s = new ServerSocket(MYECHOPORT, backlog_queue, bindAddr);
 			while (true) {
 				System.out.print("... ");
 				Socket incoming = null;
@@ -43,7 +51,9 @@ public class EchoServer {
 			}
 		}
 		finally{
-			s.close();
+			if (s != null) {
+				s.close();
+			}
 		}
 	}
 
@@ -57,7 +67,6 @@ public class EchoServer {
 		}
 		else {
 			outToClient.writeObject("You sent to server null string");
-
 		}
 		outToClient.close();
 		inFromClient.close();
