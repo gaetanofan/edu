@@ -10,7 +10,7 @@ import java.text.NumberFormat;
 import java.util.List;
 
 /**
- *  @author Gaetano Anastasi
+ *  @author Gaetano F. Anastasi
  *
  */
 public class MainFinder {
